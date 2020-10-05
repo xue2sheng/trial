@@ -5,7 +5,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"path/filepath"
+	"runtime"
 )
 
 var port = "3333"
@@ -21,12 +23,18 @@ func main() {
 
 func init() {
 
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		panic("No caller information")
+	}
+	log.Printf("Filename : %q, Dir : %q\n", filename, path.Dir(filename))
+
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
 	}
 	exPath := filepath.Dir(ex)
-	log.Println(exPath)
+	log.Println("executable: " + exPath)
 
 	var help = false
 	flag.BoolVar(&help, "help", help, "Show this help.")
