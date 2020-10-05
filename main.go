@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"path/filepath"
 	"runtime"
 )
 
@@ -27,14 +26,14 @@ func init() {
 	if !ok {
 		panic("No caller information")
 	}
-	log.Printf("Filename : %q, Dir : %q\n", filename, path.Dir(filename))
+	filepath := path.Dir(filename)
 
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
 	}
-	exPath := filepath.Dir(ex)
-	log.Println("executable: " + exPath)
+	exPath := path.Dir(ex)
+	log.Println("executable: " + exPath + " source:" + filepath)
 
 	var help = false
 	flag.BoolVar(&help, "help", help, "Show this help.")
